@@ -46,7 +46,7 @@ function createGameBoard() {
         buttonsInARowShuffle.setAttribute('class', 'col-6 border btn-outline-dark');
         buttonsInARowShuffle.setAttribute('type', 'button');
         buttonsInARowShuffle.setAttribute('id', 'button ' + q);
-        buttonsInARowShuffle.innerHTML = q + 1;
+        buttonsInARowShuffle.innerHTML = 'buttons';
 
         buttonBoardRow.appendChild(buttonsInARowShuffle);
     }
@@ -55,7 +55,7 @@ function createGameBoard() {
 }
 
 class Tile {
-    constructor(x, y, id, loc) {
+    constructor(x, y, id, loc, ) {
         //    positions on the board (0,0) -> (top left corner)
         this.x = x;
         this.y = y;
@@ -67,53 +67,101 @@ class Tile {
         this.loc = id;
         if (this.x == 0 && this.y == 0) {
             this.z = 1
+        }
+        this.render = function () {
+            // update the html version of me
+            var updateUI = document.getElementById(id);
+            updateUI.innerHTML = this.loc;
+        }
+        this.setLoc = function (x, y, loc) {
+            this.loc = loc;
+            this.x = x;
+            this.y = y;
+            this.render();
 
         }
     }
 }
 
+
 function tileMove(e) {
     var tempX = '';
     var tempY = '';
-    var loc = square[e.target.id].location;
+    var tempImg = '';
+    var loc = square[e.target.id].loc;
+
 
     // for (let p = 0; p < square.length; p++) {
     // find out if you can move at all... print id of the location
 
     // console.log(p)
     // move right
-    if (((loc + 1) % 4) < 4 && (loc + 1 < square.length)) {
-        console.log(loc)
+    if (((loc + 1) % 4) < 4 && (loc + 1 < square.length) && !((loc + 1) % 4 == 0)) {
+        console.log('move right', loc);
+       
+        tempX = square[this.id].x;
+        tempY = square[this.id].y;
+        square[this.id].setLoc(square[0].x,square[0].y,square[0].loc)
+        square[0].setLoc(tempX, tempY, loc);
+
+        return;
+
+
     }
     // moving down
     if ((loc + 4) % 4 < 4 && loc + 4 < square.length) {
-        console.log(loc)
+        console.log('move down', loc);
+
+        tempX = square[this.id].x;
+        tempY = square[this.id].y;
+        square[this.id].setLoc(square[0].x,square[0].y,square[0].loc)
+        square[0].setLoc(tempX, tempY,loc);
+        return;
+
     }
     // moving left
-    if (loc - 1 >= 0) {
-        console.log(loc)
+    if (loc - 1 >= 0 && !(loc % 4 == 0)) {
+        console.log('move left', loc);
+      
+        tempX = square[this.id].x;
+        tempY = square[this.id].y;
+        square[this.id].setLoc(square[0].x,square[0].y,square[0].loc)
+        square[0].setLoc(tempX, tempY,loc);
+
+        return;
+
     }
     // moving up
     if (loc - 4 >= 0) {
-        console.log(loc)
+        console.log('move up', loc);
+       
+        tempX = square[this.id].x;
+        tempY = square[this.id].y;
+        square[this.id].setLoc(square[0].x,square[0].y,square[0].loc)
+        square[0].setLoc(tempX, tempY,loc);
+
+        return;
+
     }
-    /*
-    // square temp => square end
-    tempX = square[this.id].x;
-    tempY = square[this.id].y
-    // square end => square start
-    square[this.id].x = square[0].x;
-    square[this.id].y = square[0].y
-    // square start => square temp 
-    square[0].x = tempX;
-    square[0].y = tempY;
-*/
 
 
-    // }
+    // // square temp => square end
+    // tempX = square[this.id].x;
+    // tempY = square[this.id].y
+    // // square end => square start
+    // square[this.id].x = square[0].x;
+    // square[this.id].y = square[0].y
+    // // square start => square temp 
+    // square[0].x = tempX;
+    // square[0].y = tempY;
+    // return;
+
 
 
 }
+
+console.log(square);
+
 
 function shuffleBoardButton() {
 
