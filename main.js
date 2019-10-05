@@ -55,7 +55,7 @@ function createGameBoard() {
 }
 
 class Tile {
-    constructor(x, y, id, loc, ) {
+    constructor(x, y, id) {
         //    positions on the board (0,0) -> (top left corner)
         this.x = x;
         this.y = y;
@@ -83,6 +83,14 @@ class Tile {
     }
 }
 
+function FindBlankTile(loc) {
+    for (var b = 0; b <= 16; b++) {
+        if (x == 0 && y == 0) {
+            return b;
+            console.log(b);
+        }
+    }
+}
 
 function tileMove(e) {
     var tempX = '';
@@ -90,18 +98,13 @@ function tileMove(e) {
     var tempImg = '';
     var loc = square[e.target.id].loc;
 
-
-    // for (let p = 0; p < square.length; p++) {
-    // find out if you can move at all... print id of the location
-
-    // console.log(p)
     // move right
     if (((loc + 1) % 4) < 4 && (loc + 1 < square.length) && !((loc + 1) % 4 == 0)) {
         console.log('move right', loc);
-       
+
         tempX = square[this.id].x;
         tempY = square[this.id].y;
-        square[this.id].setLoc(square[0].x,square[0].y,square[0].loc)
+        square[this.id].setLoc(square[0].x, square[0].y, square[0].loc)
         square[0].setLoc(tempX, tempY, loc);
 
         return;
@@ -114,51 +117,52 @@ function tileMove(e) {
 
         tempX = square[this.id].x;
         tempY = square[this.id].y;
-        square[this.id].setLoc(square[0].x,square[0].y,square[0].loc)
-        square[0].setLoc(tempX, tempY,loc);
+        square[this.id].setLoc(square[0].x, square[0].y, square[0].loc)
+        square[0].setLoc(tempX, tempY, loc);
         return;
 
     }
     // moving left
     if (loc - 1 >= 0 && !(loc % 4 == 0)) {
         console.log('move left', loc);
-      
+
         tempX = square[this.id].x;
         tempY = square[this.id].y;
-        square[this.id].setLoc(square[0].x,square[0].y,square[0].loc)
-        square[0].setLoc(tempX, tempY,loc);
+        square[this.id].setLoc(square[0].x, square[0].y, square[0].loc)
+        square[0].setLoc(tempX, tempY, loc);
 
         return;
 
     }
     // moving up
-    if (loc - 4 >= 0) {
+    if (loc - 4 >= 0 && square.id) {
         console.log('move up', loc);
-       
+
         tempX = square[this.id].x;
         tempY = square[this.id].y;
-        square[this.id].setLoc(square[0].x,square[0].y,square[0].loc)
-        square[0].setLoc(tempX, tempY,loc);
+        square[this.id].setLoc(square[0].x, square[0].y, square[0].loc)
+        square[0].setLoc(tempX, tempY, loc);
 
         return;
 
     }
-
-
-    // // square temp => square end
-    // tempX = square[this.id].x;
-    // tempY = square[this.id].y
-    // // square end => square start
-    // square[this.id].x = square[0].x;
-    // square[this.id].y = square[0].y
-    // // square start => square temp 
-    // square[0].x = tempX;
-    // square[0].y = tempY;
-    // return;
-
-
-
 }
+
+
+// // square temp => square end
+// tempX = square[this.id].x;
+// tempY = square[this.id].y
+// // square end => square start
+// square[this.id].x = square[0].x;
+// square[this.id].y = square[0].y
+// // square start => square temp 
+// square[0].x = tempX;
+// square[0].y = tempY;
+// return;
+
+
+
+
 
 console.log(square);
 
