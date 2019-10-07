@@ -110,15 +110,9 @@ function checkZValue(blankTile) {
         // return
     }
 
-    if (blankTile + 4 <= 16) {
+    if (blankTile + 4 <= 15) {
         console.log("can be down");
         square[blankTile + 4].z = 1
-        // return
-    }
-
-    if (blankTile - 1 >= 0) {
-        console.log("can be left");
-        square[blankTile - 1].z = 1
         // return
     }
 
@@ -127,6 +121,13 @@ function checkZValue(blankTile) {
         square[blankTile - 4].z = 1
         // return
     }
+   
+    if ((blankTile - 1 >= 0) && !(blankTile % 4 == 0)) {
+        console.log("can be left");
+        square[blankTile - 1].z = 1
+        // return
+    }
+
 
     console.log(square)
 
