@@ -97,8 +97,8 @@ function findBlankTile() {
 function shuffleBoardButton() {
     for (var i = 0; i < 500; i++) {
         let shuffle = Math.floor(Math.random() * 16);
-        document.getElementById(shuffle).click() 
-         }
+        document.getElementById(shuffle).click()
+    }
 }
 
 
@@ -108,7 +108,7 @@ function checkZValue(blankTile) {
         square[b].z = 0
     }
 
-    console.log('blankTile:', blankTile)
+    // console.log('blankTile:', blankTile)
 
     // if (((blankTile + 1) % 4) < 4 && (blankTile + 1 < square.length) && !((blankTile + 1) % 4 == 0)) { //moved right
 
@@ -137,7 +137,7 @@ function checkZValue(blankTile) {
     }
 
 
-    console.log(square)
+    // console.log(square)
 
 }
 
@@ -153,10 +153,10 @@ function tileMove(e) {
 
     checkZValue(blankTile)
 
-    // console.log(square);
+    console.log(square);
 
     if (square[e.target.id].z === 1) {
-
+        checkWin();
         // move right
         if (((loc + 1) % 4) < 4 && (loc + 1 < square.length) && !((loc + 1) % 4 == 0)) {
             // console.log('move right', loc);
@@ -205,13 +205,28 @@ function tileMove(e) {
             return;
 
         }
-        console.log("CAN MOVE IT");
+        // console.log("CAN MOVE IT");
+        // checkWin();
     }
 
 
 }
 
 
+
+function checkWin() {
+    var winTotal = 0
+    for (var i = 0; i < 16; i++) {
+        if (i == square[i].id) {
+            winTotal++;
+        }
+
+    }
+    if (winTotal == 16) {
+        alert("LOOK AT YOU SOLVE THIS");
+    }
+
+}
 
 
 
