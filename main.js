@@ -41,15 +41,17 @@ function createGameBoard() {
     var buttonBoardRow = document.createElement('div');
     buttonBoardRow.className = 'row';
 
-    for (var q = 0; q < 2; q++) {
-        var buttonsInARowShuffle = document.createElement('button');
-        buttonsInARowShuffle.setAttribute('class', 'col-6 border btn-outline-dark');
-        buttonsInARowShuffle.setAttribute('type', 'button');
-        buttonsInARowShuffle.setAttribute('id', 'button ' + q);
-        buttonsInARowShuffle.innerHTML = 'buttons';
+    
+        var buttonShuffle = document.createElement('button');
+        buttonShuffle.setAttribute('class', 'col-6 border btn-outline-dark');
+        buttonShuffle.innerHTML = 'Shuffle';
+        var buttonImageLoad = document.createElement('button');
+        buttonImageLoad.setAttribute('class', 'col-6 border btn-outline-dark');
+        buttonImageLoad.innerHTML = 'ImageUpload';
 
-        buttonBoardRow.appendChild(buttonsInARowShuffle);
-    }
+        buttonBoardRow.appendChild(buttonShuffle);
+        buttonBoardRow.appendChild(buttonImageLoad);
+    
     gameContainer.appendChild(buttonBoardRow);
     A.appendChild(gameContainer);
 }
@@ -86,10 +88,10 @@ class Tile {
 function FindBlankTile(loc) {
     for (var b = 0; b <= 16; b++) {
         if (x == 0 && y == 0) {
-            return b;
-            console.log(b);
+            return loc(b);
         }
     }
+    console.log(b);
 }
 
 function tileMove(e) {
@@ -97,7 +99,8 @@ function tileMove(e) {
     var tempY = '';
     var tempImg = '';
     var loc = square[e.target.id].loc;
-
+    
+    FindBlankTile;
     // move right
     if (((loc + 1) % 4) < 4 && (loc + 1 < square.length) && !((loc + 1) % 4 == 0)) {
         console.log('move right', loc);
@@ -177,7 +180,7 @@ function shuffleBoardButton() {
 
 
 function init() {
-    A.innerHTML = 'Can you see this?';
+    A.innerHTML = 'Puzzle Slider Game';
     createGameBoard();
 }
 
