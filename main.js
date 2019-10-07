@@ -45,6 +45,7 @@ function createGameBoard() {
     var buttonShuffle = document.createElement('button');
     buttonShuffle.setAttribute('class', 'col-6 border btn-outline-dark');
     buttonShuffle.innerHTML = 'Shuffle';
+    buttonShuffle.addEventListener('click', shuffleBoardButton);
     var buttonImageLoad = document.createElement('button');
     buttonImageLoad.setAttribute('class', 'col-6 border btn-outline-dark');
     buttonImageLoad.innerHTML = 'ImageUpload';
@@ -93,6 +94,13 @@ function findBlankTile() {
         }
     }
 }
+function shuffleBoardButton() {
+    for (var i = 0; i < 500; i++) {
+        let shuffle = Math.floor(Math.random() * 16);
+        document.getElementById(shuffle).click() 
+         }
+}
+
 
 function checkZValue(blankTile) {
 
@@ -121,7 +129,7 @@ function checkZValue(blankTile) {
         square[blankTile - 4].z = 1
         // return
     }
-   
+
     if ((blankTile - 1 >= 0) && !(blankTile % 4 == 0)) {
         console.log("can be left");
         square[blankTile - 1].z = 1
@@ -202,30 +210,6 @@ function tileMove(e) {
 
 
 }
-
-
-// // square temp => square end
-// tempX = square[this.id].x;
-// tempY = square[this.id].y
-// // square end => square start
-// square[this.id].x = square[0].x;
-// square[this.id].y = square[0].y
-// // square start => square temp 
-// square[0].x = tempX;
-// square[0].y = tempY;
-// return;
-
-
-
-
-
-// console.log(square);
-
-
-function shuffleBoardButton() {
-
-}
-
 
 
 
