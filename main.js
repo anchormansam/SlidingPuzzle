@@ -41,17 +41,17 @@ function createGameBoard() {
     var buttonBoardRow = document.createElement('div');
     buttonBoardRow.className = 'row';
 
-    
-        var buttonShuffle = document.createElement('button');
-        buttonShuffle.setAttribute('class', 'col-6 border btn-outline-dark');
-        buttonShuffle.innerHTML = 'Shuffle';
-        var buttonImageLoad = document.createElement('button');
-        buttonImageLoad.setAttribute('class', 'col-6 border btn-outline-dark');
-        buttonImageLoad.innerHTML = 'ImageUpload';
 
-        buttonBoardRow.appendChild(buttonShuffle);
-        buttonBoardRow.appendChild(buttonImageLoad);
-    
+    var buttonShuffle = document.createElement('button');
+    buttonShuffle.setAttribute('class', 'col-6 border btn-outline-dark');
+    buttonShuffle.innerHTML = 'Shuffle';
+    var buttonImageLoad = document.createElement('button');
+    buttonImageLoad.setAttribute('class', 'col-6 border btn-outline-dark');
+    buttonImageLoad.innerHTML = 'ImageUpload';
+
+    buttonBoardRow.appendChild(buttonShuffle);
+    buttonBoardRow.appendChild(buttonImageLoad);
+
     gameContainer.appendChild(buttonBoardRow);
     A.appendChild(gameContainer);
 }
@@ -85,70 +85,121 @@ class Tile {
     }
 }
 
-function FindBlankTile(loc) {
-    for (var b = 0; b <= 16; b++) {
-        if (x == 0 && y == 0) {
-            return loc(b);
+function findBlankTile() {
+    for (var b = 0; b <= 15; b++) {
+        if ((square[b].x == 0) && (square[b].y == 0)) {
+            // console.log("got it at: ", b);
+            return b;
         }
     }
-    console.log(b);
+}
+
+function checkZValue(blankTile) {
+
+    for (var b = 0; b <= 15; b++) {
+        square[b].z = 0
+    }
+
+    console.log('blankTile:', blankTile)
+
+    // if (((blankTile + 1) % 4) < 4 && (blankTile + 1 < square.length) && !((blankTile + 1) % 4 == 0)) { //moved right
+
+    if ((blankTile + 1) % 4 !== 0) {
+        console.log("can be right");
+        square[blankTile + 1].z = 1
+        // return
+    }
+
+    if (blankTile + 4 <= 16) {
+        console.log("can be down");
+        square[blankTile + 4].z = 1
+        // return
+    }
+
+    if (blankTile - 1 >= 0) {
+        console.log("can be left");
+        square[blankTile - 1].z = 1
+        // return
+    }
+
+    if (blankTile - 4 >= 0) {
+        console.log("can be top");
+        square[blankTile - 4].z = 1
+        // return
+    }
+
+    console.log(square)
+
 }
 
 function tileMove(e) {
     var tempX = '';
     var tempY = '';
     var tempImg = '';
+
     var loc = square[e.target.id].loc;
-    
-    FindBlankTile;
-    // move right
-    if (((loc + 1) % 4) < 4 && (loc + 1 < square.length) && !((loc + 1) % 4 == 0)) {
-        console.log('move right', loc);
-
-        tempX = square[this.id].x;
-        tempY = square[this.id].y;
-        square[this.id].setLoc(square[0].x, square[0].y, square[0].loc)
-        square[0].setLoc(tempX, tempY, loc);
-
-        return;
 
 
+    var blankTile = findBlankTile();
+
+    checkZValue(blankTile)
+
+    // console.log(square);
+
+    if (square[e.target.id].z === 1) {
+
+        // move right
+        if (((loc + 1) % 4) < 4 && (loc + 1 < square.length) && !((loc + 1) % 4 == 0)) {
+            // console.log('move right', loc);
+
+            tempX = square[this.id].x;
+            tempY = square[this.id].y;
+            square[this.id].setLoc(0, 0, 0)
+            square[blankTile].setLoc(tempX, tempY, loc);
+
+            return;
+
+
+        }
+        // moving down
+        if ((loc + 4) % 4 < 4 && loc + 4 < square.length) {
+            // console.log('move down', loc);
+
+            tempX = square[this.id].x;
+            tempY = square[this.id].y;
+            square[this.id].setLoc(0, 0, 0)
+            square[blankTile].setLoc(tempX, tempY, loc);
+            return;
+
+        }
+        // moving left
+        if (loc - 1 >= 0 && !(loc % 4 == 0)) {
+            // console.log('move left', loc);
+
+            tempX = square[this.id].x;
+            tempY = square[this.id].y;
+            square[this.id].setLoc(0, 0, 0)
+            square[blankTile].setLoc(tempX, tempY, loc);
+
+            return;
+
+        }
+        // moving up
+        if (loc - 4 >= 0 && square.id) {
+            // console.log('move up', loc);
+
+            tempX = square[this.id].x;
+            tempY = square[this.id].y;
+            square[this.id].setLoc(0, 0, 0)
+            square[blankTile].setLoc(tempX, tempY, loc);
+
+            return;
+
+        }
+        console.log("CAN MOVE IT");
     }
-    // moving down
-    if ((loc + 4) % 4 < 4 && loc + 4 < square.length) {
-        console.log('move down', loc);
 
-        tempX = square[this.id].x;
-        tempY = square[this.id].y;
-        square[this.id].setLoc(square[0].x, square[0].y, square[0].loc)
-        square[0].setLoc(tempX, tempY, loc);
-        return;
 
-    }
-    // moving left
-    if (loc - 1 >= 0 && !(loc % 4 == 0)) {
-        console.log('move left', loc);
-
-        tempX = square[this.id].x;
-        tempY = square[this.id].y;
-        square[this.id].setLoc(square[0].x, square[0].y, square[0].loc)
-        square[0].setLoc(tempX, tempY, loc);
-
-        return;
-
-    }
-    // moving up
-    if (loc - 4 >= 0 && square.id) {
-        console.log('move up', loc);
-
-        tempX = square[this.id].x;
-        tempY = square[this.id].y;
-        square[this.id].setLoc(square[0].x, square[0].y, square[0].loc)
-        square[0].setLoc(tempX, tempY, loc);
-
-        return;
-
-    }
 }
 
 
@@ -167,7 +218,7 @@ function tileMove(e) {
 
 
 
-console.log(square);
+// console.log(square);
 
 
 function shuffleBoardButton() {
