@@ -97,6 +97,7 @@ function findBlankTile() {
 function shuffleBoardButton() {
     for (var i = 0; i < 500; i++) {
         let shuffle = Math.floor(Math.random() * 16);
+        checkWin = null;
         document.getElementById(shuffle).click()
     }
 }
@@ -153,9 +154,9 @@ function tileMove(e) {
 
     checkZValue(blankTile)
 
-    console.log(square);
+    console.log('square',square);
 
-    if (square[e.target.id].z === 1) {
+     if (square[e.target.id].z === 1) {
 
         // move right
         if (((loc + 1) % 4) < 4 && (loc + 1 < square.length) && !((loc + 1) % 4 == 0)) {
@@ -165,7 +166,7 @@ function tileMove(e) {
             tempY = square[this.id].y;
             square[this.id].setLoc(0, 0, 0)
             square[blankTile].setLoc(tempX, tempY, loc);
-
+            checkWin();
             return;
         }
         // moving down
@@ -176,6 +177,7 @@ function tileMove(e) {
             tempY = square[this.id].y;
             square[this.id].setLoc(0, 0, 0)
             square[blankTile].setLoc(tempX, tempY, loc);
+            checkWin();
             return;
 
         }
@@ -187,7 +189,7 @@ function tileMove(e) {
             tempY = square[this.id].y;
             square[this.id].setLoc(0, 0, 0)
             square[blankTile].setLoc(tempX, tempY, loc);
-
+            checkWin();
             return;
 
         }
@@ -199,25 +201,20 @@ function tileMove(e) {
             tempY = square[this.id].y;
             square[this.id].setLoc(0, 0, 0)
             square[blankTile].setLoc(tempX, tempY, loc);
-
+            checkWin();
             return;
         }
         // console.log("CAN MOVE IT");
-    }
-    checkWin();
+        checkWin();
+     }
+    // checkWin();
 }
 
-// function convertToNum(i) {
-//     console.log((square[i].x * 4) + square[i].y);
-//     return (square[i].x * 4) + square[i].y;
-// }
-
-// i == convertToNum(i)
-
 function checkWin() {
+    console.log('here')
     var winTotal = 0;
     for (var i = 0; i < 16; i++) {
-        if (square[i].idx == square[i].x * 4 + square[i].y) {
+        if (square[i].id == (square[i].x * 4) + square[i].y) {
             winTotal++;
         }
     }
@@ -230,4 +227,3 @@ function init() {
     A.innerHTML = 'Puzzle Slider Game';
     createGameBoard();
 }
-
