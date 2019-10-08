@@ -154,86 +154,77 @@ function tileMove(e) {
     checkZValue(blankTile)
 
     console.log(square);
-    
+
     if (square[e.target.id].z === 1) {
-        
+
         // move right
         if (((loc + 1) % 4) < 4 && (loc + 1 < square.length) && !((loc + 1) % 4 == 0)) {
             // console.log('move right', loc);
-            
+
             tempX = square[this.id].x;
             tempY = square[this.id].y;
             square[this.id].setLoc(0, 0, 0)
             square[blankTile].setLoc(tempX, tempY, loc);
-            
+
             return;
-            
-            
         }
         // moving down
         if ((loc + 4) % 4 < 4 && loc + 4 < square.length) {
             // console.log('move down', loc);
-            
+
             tempX = square[this.id].x;
             tempY = square[this.id].y;
             square[this.id].setLoc(0, 0, 0)
             square[blankTile].setLoc(tempX, tempY, loc);
             return;
-            
+
         }
         // moving left
         if (loc - 1 >= 0 && !(loc % 4 == 0)) {
             // console.log('move left', loc);
-            
+
             tempX = square[this.id].x;
             tempY = square[this.id].y;
             square[this.id].setLoc(0, 0, 0)
             square[blankTile].setLoc(tempX, tempY, loc);
-            
+
             return;
-            
+
         }
         // moving up
         if (loc - 4 >= 0 && square.id) {
             // console.log('move up', loc);
-            
+
             tempX = square[this.id].x;
             tempY = square[this.id].y;
             square[this.id].setLoc(0, 0, 0)
             square[blankTile].setLoc(tempX, tempY, loc);
-            
+
             return;
-            
         }
         // console.log("CAN MOVE IT");
-        
     }
     checkWin();
-
-
 }
 
-function convertToNum() {
-    console.log((square[i].x * 4) + square[i].y);
-    return (square[i].x * 4) + square[i].y;
-}
+// function convertToNum(i) {
+//     console.log((square[i].x * 4) + square[i].y);
+//     return (square[i].x * 4) + square[i].y;
+// }
 
+// i == convertToNum(i)
 
 function checkWin() {
-    var winTotal = 0
+    var winTotal = 0;
     for (var i = 0; i < 16; i++) {
-        if (i == convertToNum(i)) {
+        if (square[i].idx == square[i].x * 4 + square[i].y) {
             winTotal++;
         }
-
     }
     if (winTotal == 16) {
         alert("LOOK AT YOU SOLVE THIS");
     }
-
 }
-
-
 
 function init() {
     A.innerHTML = 'Puzzle Slider Game';
