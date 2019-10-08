@@ -1,11 +1,14 @@
 var A = document.getElementById('PuzzleGame');
 A.setAttribute('class', 'text-center display-4');
+document.innerHTML = "";
 // var for boxes at beginning
 // var B = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'];
 var square = [];
+var imageSrc = "background.jpg";
 
 
 function createGameBoard() {
+    A.innerHTML = "";
     var gameContainer = document.createElement('div');
     gameContainer.setAttribute('class', 'container')
 
@@ -17,18 +20,19 @@ function createGameBoard() {
 
         for (var y = 0; y < 4; y++) {
 
-            var newCol3 = document.createElement('button')
+            var newCol3 = document.createElement('div')
             newCol3.setAttribute('class', 'col-3 border-border btn-outline-dark')
             newCol3.setAttribute('id', m);
-            newCol3.setAttribute('type', 'button');
             newCol3.addEventListener('click', tileMove);
-
-            newCol3.innerHTML = m;
-
             var T = new Tile(x, y, m);
             square.push(T);
-
-            // console.log(T)
+            
+            var updatedImage = document.createElement('img');
+            updatedImage.src = imageSrc;
+            var left = (m % 4 * -150) + "px";
+            var top = parseInt(m / 4) * -150 + "px";
+            updatedImage.setAttribute('style', "margin-left:" + left + "; margin-top:" + top + ";");
+            newCol3.appendChild(updatedImage);
 
             gameBoardRow.appendChild(newCol3);
             m++
@@ -38,6 +42,19 @@ function createGameBoard() {
     console.log(square);
     gameContainer.appendChild(gameBoardRow);
 
+    var imageSubmitRow = document.createElement('div');
+    imageSubmitRow.className = 'row';
+
+    var buttonImageLoad = document.createElement('Input');
+    buttonImageLoad.setAttribute("type", "file");
+    buttonImageLoad.setAttribute('id', 'upload');
+    buttonImageLoad.setAttribute('class', 'col-12 border btn-outline-dark bg-white');
+    buttonImageLoad.addEventListener('change', uploadButton);
+    buttonImageLoad.innerHTML = '';
+
+    imageSubmitRow.appendChild(buttonImageLoad);
+
+
     var buttonBoardRow = document.createElement('div');
     buttonBoardRow.className = 'row';
 
@@ -46,15 +63,28 @@ function createGameBoard() {
     buttonShuffle.setAttribute('class', 'col-6 border btn-outline-dark');
     buttonShuffle.innerHTML = 'Shuffle';
     buttonShuffle.addEventListener('click', shuffleBoardButton);
-    var buttonImageLoad = document.createElement('button');
-    buttonImageLoad.setAttribute('class', 'col-6 border btn-outline-dark');
-    buttonImageLoad.innerHTML = 'ImageUpload';
 
+    // var buttonImageApply = document.createElement('button');
+    // buttonShuffle.setAttribute('class', 'col-6 border btn-outline-dark');
+    // buttonShuffle.innerHTML = 'Apply Image';
+    // buttonShuffle.addEventListener('click', uploadImage);
+
+    // buttonBoardRow.appendChild(buttonImageApply);
     buttonBoardRow.appendChild(buttonShuffle);
-    buttonBoardRow.appendChild(buttonImageLoad);
 
+    gameContainer.appendChild(imageSubmitRow);
     gameContainer.appendChild(buttonBoardRow);
     A.appendChild(gameContainer);
+}
+
+function uploadButton(e) {
+    console.log(e);
+    var objectURL = URL.createObjectURL(e.target.files[0]);
+    // var newImage = [];
+    // newImage.push(e.target.files[0].name);
+    imageSrc = objectURL;
+
+    createGameBoard();
 }
 
 class Tile {
@@ -73,8 +103,17 @@ class Tile {
         }
         this.render = function () {
             // update the html version of me
-            var updateUI = document.getElementById(id);
-            updateUI.innerHTML = this.loc;
+            var updateUI = document.getElementById(imageSrc);
+            updateUI.innerHTML = "";
+            let img = document.createElement("img");
+            img.src = imageSrc;
+            if(this.blankTile){
+                img.setAttribute('style', 'opacity:0');
+            }
+            else {
+                img.setAttribute('style', 'margin');
+            }
+            updateUI.appendChild(img)
         }
         this.setLoc = function (x, y, loc) {
             this.loc = loc;
@@ -94,6 +133,7 @@ function findBlankTile() {
         }
     }
 }
+
 function shuffleBoardButton() {
     for (var i = 0; i < 500; i++) {
         let shuffle = Math.floor(Math.random() * 16);
@@ -154,9 +194,9 @@ function tileMove(e) {
 
     checkZValue(blankTile)
 
-    console.log('square',square);
+    console.log('square', square);
 
-     if (square[e.target.id].z === 1) {
+    if (square[e.target.id].z === 1) {
 
         // move right
         if (((loc + 1) % 4) < 4 && (loc + 1 < square.length) && !((loc + 1) % 4 == 0)) {
@@ -206,7 +246,7 @@ function tileMove(e) {
         }
         // console.log("CAN MOVE IT");
         checkWin();
-     }
+    }
     // checkWin();
 }
 
