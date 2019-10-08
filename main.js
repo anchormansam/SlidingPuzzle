@@ -4,7 +4,7 @@ document.innerHTML = "";
 // var for boxes at beginning
 // var B = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'];
 var square = [];
-var imageSrc = "background.jpg";
+var imageSrc = "room.jpg";
 
 
 function createGameBoard() {
@@ -20,21 +20,18 @@ function createGameBoard() {
 
         for (var y = 0; y < 4; y++) {
 
-            var newCol3 = document.createElement('div')
-            newCol3.setAttribute('class', 'col-3 border-border btn-outline-dark')
+            var newCol3 = document.createElement('div');
+            newCol3.setAttribute('class', 'col-3 border-border btn-outline-dark');
+            newCol3.setAttribute('style', 'height:200px; width:200px; overflow:hidden; background-color:black;')
             newCol3.setAttribute('id', m);
             newCol3.addEventListener('click', tileMove);
-            var T = new Tile(x, y, m);
-            square.push(T);
-            
-            var updatedImage = document.createElement('img');
-            updatedImage.src = imageSrc;
-            var left = (m % 4 * -150) + "px";
-            var top = parseInt(m / 4) * -150 + "px";
-            updatedImage.setAttribute('style', "margin-left:" + left + "; margin-top:" + top + ";");
-            newCol3.appendChild(updatedImage);
-
             gameBoardRow.appendChild(newCol3);
+            var tile = new Tile(x, y, m, newCol3);
+            tile.render();
+            square.push(tile);
+
+
+
             m++
         }
 
@@ -88,30 +85,33 @@ function uploadButton(e) {
 }
 
 class Tile {
-    constructor(x, y, id) {
+    constructor(x, y, id, content) {
         //    positions on the board (0,0) -> (top left corner)
         this.x = x;
         this.y = y;
         this.z = 0;
         // index of array B (DO NOT CHANGE)
         this.id = id;
-        this.height = '50px';
-        this.width = '50px';
         this.loc = id;
+        this.content = content;
         if (this.x == 0 && this.y == 0) {
             this.z = 1
         }
         this.render = function () {
             // update the html version of me
-            var updateUI = document.getElementById(imageSrc);
+            var updateUI = this.content;
             updateUI.innerHTML = "";
             let img = document.createElement("img");
             img.src = imageSrc;
-            if(this.blankTile){
-                img.setAttribute('style', 'opacity:0');
+            img.id = this.loc;
+            if (this.id == 0) {
+                img.setAttribute('style', 'opacity:0;');
             }
             else {
-                img.setAttribute('style', 'margin');
+                img.src = imageSrc;
+                var left = (this.loc % 4) * -250 + "px";
+                var top = parseInt(this.loc / 4) * -250 + "px";
+                img.setAttribute('style', "margin-left:" + left + "; margin-top:" + top + ";");
             }
             updateUI.appendChild(img)
         }
@@ -137,7 +137,7 @@ function findBlankTile() {
 function shuffleBoardButton() {
     for (var i = 0; i < 500; i++) {
         let shuffle = Math.floor(Math.random() * 16);
-        checkWin = null;
+        // checkWin = null;
         document.getElementById(shuffle).click()
     }
 }
@@ -186,7 +186,7 @@ function tileMove(e) {
     var tempX = '';
     var tempY = '';
     var tempImg = '';
-
+    console.log({ square, 'e.target.id': e.target.id, 'e.target': e.target })
     var loc = square[e.target.id].loc;
 
 
