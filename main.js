@@ -154,70 +154,75 @@ function tileMove(e) {
     checkZValue(blankTile)
 
     console.log(square);
-
+    
     if (square[e.target.id].z === 1) {
-        checkWin();
+        
         // move right
         if (((loc + 1) % 4) < 4 && (loc + 1 < square.length) && !((loc + 1) % 4 == 0)) {
             // console.log('move right', loc);
-
+            
             tempX = square[this.id].x;
             tempY = square[this.id].y;
             square[this.id].setLoc(0, 0, 0)
             square[blankTile].setLoc(tempX, tempY, loc);
-
+            
             return;
-
-
+            
+            
         }
         // moving down
         if ((loc + 4) % 4 < 4 && loc + 4 < square.length) {
             // console.log('move down', loc);
-
+            
             tempX = square[this.id].x;
             tempY = square[this.id].y;
             square[this.id].setLoc(0, 0, 0)
             square[blankTile].setLoc(tempX, tempY, loc);
             return;
-
+            
         }
         // moving left
         if (loc - 1 >= 0 && !(loc % 4 == 0)) {
             // console.log('move left', loc);
-
+            
             tempX = square[this.id].x;
             tempY = square[this.id].y;
             square[this.id].setLoc(0, 0, 0)
             square[blankTile].setLoc(tempX, tempY, loc);
-
+            
             return;
-
+            
         }
         // moving up
         if (loc - 4 >= 0 && square.id) {
             // console.log('move up', loc);
-
+            
             tempX = square[this.id].x;
             tempY = square[this.id].y;
             square[this.id].setLoc(0, 0, 0)
             square[blankTile].setLoc(tempX, tempY, loc);
-
+            
             return;
-
+            
         }
         // console.log("CAN MOVE IT");
-        // checkWin();
+        
     }
+    checkWin();
 
 
 }
 
+function convertToNum() {
+    console.log((square[i].x * 4) + square[i].y);
+    return (square[i].x * 4) + square[i].y;
+}
 
 
 function checkWin() {
     var winTotal = 0
     for (var i = 0; i < 16; i++) {
-        if (i == square[i].id) {
+        if (i == convertToNum(i)) {
             winTotal++;
         }
 
