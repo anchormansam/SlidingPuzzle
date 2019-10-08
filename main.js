@@ -1,6 +1,5 @@
 var A = document.getElementById('PuzzleGame');
 A.setAttribute('class', 'text-center display-4');
-document.innerHTML = "";
 // var for boxes at beginning
 // var B = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'];
 var square = [];
@@ -10,21 +9,22 @@ var imageSrc = "room.jpg";
 function createGameBoard() {
     A.innerHTML = "";
     var gameContainer = document.createElement('div');
-    gameContainer.setAttribute('class', 'container')
+    gameContainer.setAttribute('class', 'container m-0')
 
     var gameBoardRow = document.createElement('div');
-    gameBoardRow.className = 'row';
+    gameBoardRow.className = 'row m-0';
     var m = 0
+    square = [];
     for (var x = 0; x < 4; x++) {
 
 
         for (var y = 0; y < 4; y++) {
 
             var newCol3 = document.createElement('div');
-            newCol3.setAttribute('class', 'col-3 border-border btn-outline-dark');
-            newCol3.setAttribute('style', 'height:200px; width:200px; overflow:hidden; background-color:black;')
+            newCol3.setAttribute('class', 'col-3 border-border btn-outline-dark m-0');
+            newCol3.setAttribute('style', 'height:250px; width:250px; overflow:hidden; background-color:white;')
             newCol3.setAttribute('id', m);
-            newCol3.addEventListener('click', tileMove);
+            // newCol3.addEventListener('click', tileMove);
             gameBoardRow.appendChild(newCol3);
             var tile = new Tile(x, y, m, newCol3);
             tile.render();
@@ -45,11 +45,12 @@ function createGameBoard() {
     var buttonImageLoad = document.createElement('Input');
     buttonImageLoad.setAttribute("type", "file");
     buttonImageLoad.setAttribute('id', 'upload');
-    buttonImageLoad.setAttribute('class', 'col-12 border btn-outline-dark bg-white');
+    buttonImageLoad.setAttribute('class', 'col-12 border btn-outline-dark bg-white m-0');
     buttonImageLoad.addEventListener('change', uploadButton);
     buttonImageLoad.innerHTML = '';
 
     imageSubmitRow.appendChild(buttonImageLoad);
+
 
 
     var buttonBoardRow = document.createElement('div');
@@ -85,15 +86,16 @@ function uploadButton(e) {
 }
 
 class Tile {
-    constructor(x, y, id, content) {
+    constructor(x, y, tileId, content) {
         //    positions on the board (0,0) -> (top left corner)
         this.x = x;
         this.y = y;
         this.z = 0;
         // index of array B (DO NOT CHANGE)
-        this.id = id;
-        this.loc = id;
+        this.tileId = tileId;
+        this.loc = tileId;
         this.content = content;
+        this.content.addEventListener('click', tileMove);
         if (this.x == 0 && this.y == 0) {
             this.z = 1
         }
@@ -103,8 +105,7 @@ class Tile {
             updateUI.innerHTML = "";
             let img = document.createElement("img");
             img.src = imageSrc;
-            img.id = this.loc;
-            if (this.id == 0) {
+            if (this.loc == 0) {
                 img.setAttribute('style', 'opacity:0;');
             }
             else {
@@ -186,9 +187,7 @@ function tileMove(e) {
     var tempX = '';
     var tempY = '';
     var tempImg = '';
-    console.log({ square, 'e.target.id': e.target.id, 'e.target': e.target })
-    var loc = square[e.target.id].loc;
-
+    var loc = square[this.id].loc;
 
     var blankTile = findBlankTile();
 
@@ -196,7 +195,7 @@ function tileMove(e) {
 
     console.log('square', square);
 
-    if (square[e.target.id].z === 1) {
+    if (square[this.id].z === 1) {
 
         // move right
         if (((loc + 1) % 4) < 4 && (loc + 1 < square.length) && !((loc + 1) % 4 == 0)) {
@@ -254,7 +253,7 @@ function checkWin() {
     console.log('here')
     var winTotal = 0;
     for (var i = 0; i < 16; i++) {
-        if (square[i].id == (square[i].x * 4) + square[i].y) {
+        if (square[i].tileId == (square[i].x * 4) + square[i].y) {
             winTotal++;
         }
     }
